@@ -1,5 +1,5 @@
-import * as fromPizzas from '../actions/pizzas.action';
-import { Pizza } from '../../models/pizza.model';
+import * as fromPizzas from "../actions/pizzas.action";
+import { Pizza } from "../../models/pizza.model";
 
 export interface PizzaState {
   entities: { [id: number]: Pizza };
@@ -10,7 +10,7 @@ export interface PizzaState {
 export const initialState: PizzaState = {
   entities: {},
   loaded: false,
-  loading: false,
+  loading: false
 };
 
 export function reducer(
@@ -21,7 +21,7 @@ export function reducer(
     case fromPizzas.LOAD_PIZZAS: {
       return {
         ...state,
-        loading: true,
+        loading: true
       };
     }
 
@@ -32,11 +32,11 @@ export function reducer(
         (entities: { [id: number]: Pizza }, pizza: Pizza) => {
           return {
             ...entities,
-            [pizza.id]: pizza,
+            [pizza.id]: pizza
           };
         },
         {
-          ...state.entities,
+          ...state.entities
         }
       );
 
@@ -44,7 +44,7 @@ export function reducer(
         ...state,
         loading: false,
         loaded: true,
-        entities,
+        entities
       };
     }
 
@@ -52,7 +52,27 @@ export function reducer(
       return {
         ...state,
         loading: false,
-        loaded: false,
+        loaded: false
+      };
+    }
+
+    case fromPizzas.CREATE_PIZZA_SUCCESS:
+    case fromPizzas.UPDATE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const entities = { ...state.entities, [pizza.id]: pizza };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromPizzas.REMOVE_PIZZA: {
+      const pizza = action.payload;
+      // how to remove an item from entities immutably.
+      const { [pizza.id]: removed, ...entities } = state.entities;
+      return {
+        ...state,
+        entities
       };
     }
   }
