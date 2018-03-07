@@ -86,6 +86,14 @@
         {
           "id": 10,
           "name": "pepperoni"
+        },
+        {
+          "id": 3,
+          "name": "basil"
+        },
+        {
+          "id": 7,
+          "name": "olive"
         }
       ],
       "id": 3

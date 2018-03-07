@@ -1,12 +1,14 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector } from "@ngrx/store";
 
-import * as fromRoot from '../../../app/store';
-import * as fromFeature from '../reducers';
-import * as fromPizzas from '../reducers/pizzas.reducer';
-import * as fromToppings from './toppings.selectors';
+// good practice to list in order from root to branches
+import * as fromRoot from "../../../app/store";
+import * as fromFeature from "../reducers";
+import * as fromPizzas from "../reducers/pizzas.reducer";
+import * as fromToppings from "./toppings.selectors";
 
-import { Pizza } from '../../models/pizza.model';
+import { Pizza } from "../../models/pizza.model";
 
+// pizza state
 export const getPizzaState = createSelector(
   fromFeature.getProductsState,
   (state: fromFeature.ProductsState) => state.pizzas

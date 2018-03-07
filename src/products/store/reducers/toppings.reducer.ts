@@ -1,5 +1,5 @@
-import * as fromToppings from '../actions/toppings.action';
-import { Topping } from '../../models/topping.model';
+import * as fromToppings from "../actions/toppings.action";
+import { Topping } from "../../models/topping.model";
 
 export interface ToppingsState {
   entities: { [id: number]: Topping };
@@ -12,7 +12,7 @@ export const initialState: ToppingsState = {
   entities: {},
   loaded: false,
   loading: false,
-  selectedToppings: [],
+  selectedToppings: []
 };
 
 export function reducer(
@@ -25,29 +25,30 @@ export function reducer(
 
       return {
         ...state,
-        selectedToppings,
+        selectedToppings
       };
     }
 
     case fromToppings.LOAD_TOPPINGS: {
       return {
         ...state,
-        loading: true,
+        loading: true
       };
     }
 
     case fromToppings.LOAD_TOPPINGS_SUCCESS: {
       const toppings = action.payload;
-
+      // could make a function in a utilities file which will automatically
+      // take an array payload and turn it into an entity.
       const entities = toppings.reduce(
         (entities: { [id: number]: Topping }, topping: Topping) => {
           return {
             ...entities,
-            [topping.id]: topping,
+            [topping.id]: topping
           };
         },
         {
-          ...state.entities,
+          ...state.entities
         }
       );
 
@@ -55,7 +56,7 @@ export function reducer(
         ...state,
         loaded: true,
         loading: false,
-        entities,
+        entities
       };
     }
 
@@ -63,7 +64,7 @@ export function reducer(
       return {
         ...state,
         loaded: false,
-        loading: false,
+        loading: false
       };
     }
   }

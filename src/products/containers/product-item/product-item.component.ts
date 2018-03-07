@@ -1,18 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
-import * as fromStore from '../../store';
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
+import { tap } from "rxjs/operators";
+import * as fromStore from "../../store";
 
-import { Pizza } from '../../models/pizza.model';
-import { Topping } from '../../models/topping.model';
+import { Pizza } from "../../models/pizza.model";
+import { Topping } from "../../models/topping.model";
 
 @Component({
-  selector: 'product-item',
-  styleUrls: ['product-item.component.scss'],
+  selector: "product-item",
+  styleUrls: ["product-item.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div 
+    <div
       class="product-item">
       <pizza-form
         [pizza]="pizza$ | async"
@@ -26,7 +27,7 @@ import { Topping } from '../../models/topping.model';
         </pizza-display>
       </pizza-form>
     </div>
-  `,
+  `
 })
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
@@ -36,6 +37,8 @@ export class ProductItemComponent implements OnInit {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
+    // this is a special selector which uses the route ID to retrieve
+    // the correct pizza
     this.pizza$ = this.store.select(fromStore.getSelectedPizza).pipe(
       tap((pizza: Pizza = null) => {
         const pizzaExists = !!(pizza && pizza.toppings);
@@ -62,7 +65,7 @@ export class ProductItemComponent implements OnInit {
   }
 
   onRemove(event: Pizza) {
-    const remove = window.confirm('Are you sure?');
+    const remove = window.confirm("Are you sure?");
     if (remove) {
       this.store.dispatch(new fromStore.RemovePizza(event));
     }
